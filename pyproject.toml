@@ -1,19 +1,36 @@
 [project]
-name = "RESMA"
-version = "0.0.0"
-description = "Range Signal Meta Amplifier"
 authors = [
-    {name = "Christian Camacho", email = "chris.ca.dev@gmail.com"},
+  {name = "Christian Camacho", email = "chris.ca.dev@gmail.com"},
 ]
-dependencies = []
-requires-python = ">=3.13"
-readme = "README.md"
+dependencies = ["click>=8.2.1", "click-aliases>=1.0.5"]
+description = "Range Signal Meta Amplifier"
 license = {text = "MIT"}
+name = "RESMA"
+readme = "README.md"
+requires-python = ">=3.13"
+version = "0.0.0"
 
 [build-system]
-requires = ["pdm-backend"]
 build-backend = "pdm.backend"
+requires = ["pdm-backend"]
 
+[project.scripts]
+resma = "resma.cli:main"
 
 [tool.pdm]
 distribution = true
+
+[dependency-groups]
+dev = [
+  "pytest>=8.4.1",
+  "mypy>=1.16.1",
+  "black>=25.1.0",
+]
+lint = [
+  "flake8>=7.3.0",
+  "black>=25.1.0",
+]
+test = [
+  "pytest>=8.4.1",
+  "pytest-cov>=6.2.1",
+]
