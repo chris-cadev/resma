@@ -8,7 +8,7 @@ license = {text = "MIT"}
 name = "RESMA"
 readme = "README.md"
 requires-python = ">=3.13"
-version = "0.0.0-gamma.2025062319"
+version = "0.0.0+gamma.20250624070730"
 
 [build-system]
 build-backend = "pdm.backend"
@@ -32,8 +32,8 @@ lint = [
   "black>=25.1.0",
 ]
 test = [
-  "pytest>=8.4.1",
-  "pytest-cov>=6.2.1",
+    "pytest>=8.4.1",
+    "pytest-cov>=6.2.1",
 ]
 ci = [
     "toml-cli>=0.7.0",
