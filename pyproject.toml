@@ -8,7 +8,7 @@ license = {text = "MIT"}
 name = "RESMA"
 readme = "README.md"
 requires-python = ">=3.13"
-version = "0.0.0"
+version = "0.0.0-gamma.2025062319"
 
 [build-system]
 build-backend = "pdm.backend"
@@ -22,9 +22,10 @@ distribution = true
 
 [dependency-groups]
 dev = [
-  "pytest>=8.4.1",
-  "mypy>=1.16.1",
-  "black>=25.1.0",
+    "pytest>=8.4.1",
+    "mypy>=1.16.1",
+    "black>=25.1.0",
+    "coverage>=7.9.1",
 ]
 lint = [
   "flake8>=7.3.0",
@@ -33,4 +34,7 @@ lint = [
 test = [
   "pytest>=8.4.1",
   "pytest-cov>=6.2.1",
+]
+ci = [
+    "toml-cli>=0.7.0",
 ]
