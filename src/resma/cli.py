@@ -21,7 +21,7 @@ commands = {
 }
 
 
+for name in commands.keys():
+    main.add_command(commands.get(name), name)
 if __name__ == '__main__':
-    for name in commands.keys():
-        main.add_command(commands.get(name), name)
     main()
