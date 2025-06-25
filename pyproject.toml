@@ -8,7 +8,7 @@ license = {text = "MIT"}
 name = "RESMA"
 readme = "README.md"
 requires-python = ">=3.13"
-version = "0.0.0+gamma.20250624194042"
+version = "0.0.0+gamma.20250624194401"
 
 [build-system]
 build-backend = "pdm.backend"
