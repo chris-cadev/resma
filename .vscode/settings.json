@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
+        "dotenv",
         "resma"
     ],
     "python.testing.pytestArgs": [
