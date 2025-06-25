@@ -1,0 +1,56 @@
+#!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
+
+readonly GREEN='\033[0;32m'
+readonly RED='\033[0;31m'
+readonly YELLOW='\033[1;33m'
+readonly BLUE='\033[0;34m'
+readonly NC='\033[0m'
+
+readonly SCRIPTS_DIR="$(dirname "$(realpath "$0")")"
+
+log() {
+    local level="$1"
+    local msg="$2"
+    local timestamp
+    timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    case "$level" in
+        INFO) printf "[%s] [${BLUE}%s${NC}] %s\n" "$timestamp" "$level" "$msg" ;;
+        WARN) printf "[%s] [${YELLOW}%s${NC}] %s\n" "$timestamp" "$level" "$msg" ;;
+        ERROR) printf "[%s] [${RED}%s${NC}] %s\n" "$timestamp" "$level" "$msg" >&2 ;;
+        SUCCESS) printf "[%s] [${GREEN}%s${NC}] %s\n" "$timestamp" "$level" "$msg" ;;
+        *) printf "[%s] [%s] %s\n" "$timestamp" "$level" "$msg" ;;
+    esac
+}
+
+error_exit() {
+    log ERROR "$1"
+    exit 1
+}
+
+main() {
+    command -v pdm >/dev/null 2>&1 || error_exit "pdm not found in PATH"
+
+    log INFO "Installing dependencies with PDM..."
+    if output=$(pdm install 2>&1); then
+        log SUCCESS "Dependencies installed successfully"
+    else
+        log ERROR "Failed to install dependencies. Output:"
+        echo "$output"
+        exit 1
+    fi
+
+    log INFO "Running tests..."
+    if output=$(pdm test 2>&1); then
+        log SUCCESS "Tests passed"
+    else
+        log ERROR "Tests failed. Output:"
+        echo "$output"
+        exit 1
+    fi
+
+    log SUCCESS "All checks passed. Ready to commit."
+}
+
+main "$@"

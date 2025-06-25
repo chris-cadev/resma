@@ -1,0 +1,35 @@
+#!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
+
+readonly PROJECT_CONFIG_FILE="pyproject.toml"
+readonly SCRIPTS_DIR="$(dirname "$(realpath "$0")")"
+
+log() {
+    local level="$1"
+    local msg="$2"
+    local timestamp
+    timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    case "$level" in
+        INFO) printf "[%s] [\033[0;34m%s\033[0m] %s\n" "$timestamp" "$level" "$msg" ;;
+        ERROR) printf "[%s] [\033[0;31m%s\033[0m] %s\n" "$timestamp" "$level" "$msg" >&2 ;;
+        *) printf "[%s] [%s] %s\n" "$timestamp" "$level" "$msg" ;;
+    esac
+}
+
+error_exit() {
+    log ERROR "$1"
+    exit 1
+}
+
+main() {
+    "$SCRIPTS_DIR/../tag-version.sh"
+
+    local version
+    version="v$(pdm run toml get --toml-path "$PROJECT_CONFIG_FILE" project.version)" || error_exit "Failed to extract version"
+
+    log INFO "Pushing git tag $version to origin"
+    git push origin tag "$version" || error_exit "Failed to push tag $version"
+}
+
+main "$@"

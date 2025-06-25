@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-TOML_FILE=./pyproject.toml
+TOML_FILE="${3:-"pyproject.toml"}"
 VERSION_TYPE="$1"
 LOCAL_TAG="$2"
 
@@ -58,7 +58,7 @@ case "$VERSION_TYPE" in
         fi
         LOCAL_PART=""
     ;;
-    rc | release-candidate)
+    rc | release | release-candidate)
         if [[ "$PRERELEASE_PART" =~ \.rc([0-9]+) ]]; then
             NUM=${BASH_REMATCH[1]}
             PRERELEASE_PART=".rc$((NUM + 1))"
@@ -86,18 +86,4 @@ if [ "$NEXT_VERSION" == "$CURRENT_VERSION" ]; then
     NEXT_VERSION="${CURRENT_VERSION}${LOCAL_PART}"
 fi
 
-echo "$CURRENT_VERSION -> $NEXT_VERSION"
-
-if ! [[ -t 0 ]]; then
-    echo "No TTY available. Cannot read user input."
-else
-    echo 'Is it the expected version change? (Y/n) '
-    read accepted
-    accepted=$(printf '%s' "$accepted" | tr '[:upper:]' '[:lower:]')
-    accepted=${accepted:-y}
-    if [ "$accepted" != "y" ]; then
-        exit 1
-    fi
-fi
-
-pdm run toml set --toml-path "$TOML_FILE" project.version "$NEXT_VERSION"
+echo "$NEXT_VERSION"
