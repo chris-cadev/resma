@@ -1,6 +1,9 @@
 {
     "cSpell.words": [
         "dotenv",
+        "dtos",
+        "Interactor",
+        "interactors",
         "resma"
     ],
     "python.testing.pytestArgs": [

@@ -5,8 +5,10 @@ from typing import Optional
 
 from dotenv import load_dotenv
 
+from resma.annotate.interfaces.interactors import AnnotateEnvInteractor
 
-class AnnotateEnvironment:
+
+class AnnotateEnvironment(AnnotateEnvInteractor):
     def __init__(self):
         self._workspace = None
         self._init_env()
@@ -20,7 +22,8 @@ class AnnotateEnvironment:
         return os.path.realpath(os.path.dirname(path))
 
     def get_config(self) -> dict:
-        config_path = os.path.join(self.get_working_directory(), "../config.toml")
+        config_path = os.path.join(
+            self.get_working_directory(), "../../../config.toml")
         config = {}
         with open(config_path, 'r') as f:
             config = toml.load(f)
@@ -34,10 +37,10 @@ class AnnotateEnvironment:
     def _init_env(self):
         self.load_env()
 
-        self.ANNOTATE_UNTITLED_NAME = os.getenv(
+        self.annotate_untitled_name = os.getenv(
             "ANNOTATE_UNTITLED_NAME", "untitled")
-        self.ANNOTATE_DEFAULT_VAULT = os.getenv("ANNOTATE_DEFAULT_VAULT")
-        self.VAULTS = self.get_config()["vaults"]
+        self.annotate_default_vault = os.getenv("ANNOTATE_DEFAULT_VAULT")
+        self.annotate_vaults = self.get_config()["vaults"]
 
     @property
     def workspace(self):
@@ -47,3 +50,15 @@ class AnnotateEnvironment:
                 workspace = workspace.replace("$HOME", "%USERPROFILE%")
             self._workspace = os.path.expandvars(workspace)
         return self._workspace
+
+    @property
+    def vaults(self):
+        return self.annotate_vaults
+
+    @property
+    def default_note_name(self):
+        return self.annotate_default_vault
+
+    @property
+    def default_vault(self):
+        return self.annotate_default_vault
