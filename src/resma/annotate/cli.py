@@ -9,16 +9,40 @@ from resma.annotate.interfaces.factories.environment_factory import make_annotat
 env = make_annotate_environment()
 
 
-@group(cls=ClickAliasedGroup, invoke_without_command=True)
+@group(cls=ClickAliasedGroup)
 @pass_context
-@option('--name', '-n', type=STRING)
-@option("--vault", "-v", type=STRING, default=env.default_vault)
-def main(ctx: Context, name: Union[str, None] = None, vault: Union[str, None] = None):
-    if not name:
-        click.UsageError("Note name is required", ctx)
-    if not ctx.invoked_subcommand:
-        ctx.invoke(add_note, name=name, vault=vault, quiet=True)
-        ctx.invoke(edit_note, name=name, vault=vault, quiet=False)
+def main(ctx):
+    pass
+
+
+@main.command(aliases=("open", "o"))
+@pass_context
+@argument("name", type=STRING, default=env.default_note_name)
+@option(
+    "--vault", "-v",
+    default=env.default_vault,
+    help="Vault name or directory path"
+)
+@option(
+    "--template",
+    "-t",
+    default=None,
+    type=STRING,
+    help="Template shortcut name",
+)
+@option("--quiet", "-q", is_flag=True, default=False)
+def open_note(ctx: Context, name: str, vault: str, template: str = None, quiet: bool = False):
+    ctx.invoke(
+        add_note,
+        name=name, vault=vault,
+        template=template, quiet=True,
+    )
+    ctx.invoke(
+        edit_note,
+        name=name, vault=vault,
+        quiet=quiet,
+    )
+
 
 
 @main.command(aliases=("add", "an", "a"))

@@ -18,15 +18,15 @@ def main(ctx):
     }
 
 
-
 commands = {
-    'ingest': main_ingest,  # bibliography
-    'annotate': main_annotate,  # notes new
-    'publish': main_publish,  # gather scatter
+    'annotate': (main_annotate, ('note', 'n')),  # notes new
+    'ingest': (main_ingest, ('ing', 'i')),  # bibliography
+    'publish': (main_publish, ('pub', 'p')),  # gather scatter
 }
 
 
 for name in commands.keys():
-    main.add_command(commands.get(name), name)
+    cmd, aliases = commands.get(name)
+    main.add_command(cmd, name, aliases=aliases)
 if __name__ == '__main__':
     main()
