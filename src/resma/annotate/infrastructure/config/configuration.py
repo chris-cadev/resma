@@ -1,14 +1,13 @@
 import toml
 import os
-from pathlib import Path
 from typing import Optional
 
 from resma.annotate.interfaces.interactors import AnnotateConfigInteractor
 
 
 class AnnotateConfiguration(AnnotateConfigInteractor):
-    def __init__(self):
-        self._workspace = None
+    def __init__(self, *, path: Optional[str] = None):
+        self.config_path = path
 
     def _get_working_directory(self, file: Optional[str] = None):
         """
@@ -19,10 +18,8 @@ class AnnotateConfiguration(AnnotateConfigInteractor):
         return os.path.realpath(os.path.dirname(path))
 
     def get_config(self) -> dict:
-        config_path = os.path.join(
-            self._get_working_directory(), "../../../config.toml")
         config = {}
-        with open(config_path, 'r') as f:
+        with open(self.config_path, 'r') as f:
             config = toml.load(f)
         return config
 
