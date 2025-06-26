@@ -4,6 +4,7 @@
         "dtos",
         "Interactor",
         "interactors",
+        "rakma",
         "resma"
     ],
     "python.testing.pytestArgs": [

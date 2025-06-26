@@ -2,6 +2,11 @@ from dataclasses import dataclass
 
 
 @dataclass
-class CreateNoteDTO:
+class NoteDTO:
     filepath: str
 
+
+@dataclass
+class NoteWithContentDTO:
+    note: NoteDTO
+    content: str

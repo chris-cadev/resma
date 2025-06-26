@@ -163,3 +163,5 @@ cython_debug/
 
 ## project related objects
 src/**/config.toml
+.benchmarks
+tests/.test-data

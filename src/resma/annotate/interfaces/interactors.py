@@ -2,10 +2,10 @@ from abc import ABC, abstractmethod
 from typing import Optional, Union
 
 from resma.annotate.domain.entities import Note
-from resma.annotate.interfaces.dto import CreateNoteDTO
+from resma.annotate.interfaces.dto import NoteDTO, NoteWithContentDTO
 
 
-class AnnotateEnvInteractor(ABC):
+class AnnotateConfigInteractor(ABC):
     @property
     @abstractmethod
     def vaults(self) -> dict:
@@ -21,15 +21,20 @@ class AnnotateEnvInteractor(ABC):
     def default_vault(self) -> str:
         pass
 
+    @property
+    @abstractmethod
+    def editor_cmd(self) -> str:
+        pass
+
 
 class AnnotateNoteRepositoryInteractor(ABC):
     @abstractmethod
     def create(self, *, note: Note, content: Union[str, None]) -> Union[Note, Exception]:
         pass
 
-    # @abstractmethod
-    # def get(self, *, note_filepath: str) -> Union[Note, None, Exception]:
-    #     pass
+    @abstractmethod
+    def get(self, *, filepath: str) -> Union[NoteWithContentDTO, None, Exception]:
+        pass
 
     # @abstractmethod
     # def list(self, *, vault_name: Optional[str] = None) -> Union[list[Note], None, Exception]:
@@ -40,7 +45,18 @@ class AnnotateNoteRepositoryInteractor(ABC):
     #     pass
 
 
+class AnnotateNoteEditorGateway(ABC):
+    @abstractmethod
+    def open_editor(self, *, filepath: str) -> Union[bool, Exception]:
+        pass
+
 class CreateNoteController(ABC):
     @abstractmethod
-    def create_note(self, *, name: str, vault_name: Optional[str], template: Optional[str] = None) -> CreateNoteDTO:
+    def create_note(self, *, name: str, vault_name: Optional[str], template: Optional[str] = None) -> NoteDTO:
+        pass
+
+
+class EditNoteController(ABC):
+    @abstractmethod
+    def edit_note(self, *, name: str, vault_name: Optional[str]) -> NoteWithContentDTO:
         pass

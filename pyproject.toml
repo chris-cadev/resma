@@ -8,7 +8,7 @@ license = {text = "MIT"}
 name = "RESMA"
 readme = "README.md"
 requires-python = ">=3.13"
-version = "0.0.0+gamma.20250625134806"
+version = "0.0.0+gamma.20250625181210"
 
 [build-system]
 build-backend = "pdm.backend"
@@ -23,11 +23,12 @@ distribution = true
 [tool.pdm.scripts]
 cov.composite = ["coverage run -m pytest", "coverage html"]
 scov.composite = ["python -m http.server 18000 --directory htmlcov"]
-test.composite = ["pytest"]
+test.composite = ["pytest tests/ "]
 bump-version = "./ci/bump-version.sh"
 tag-version = "./ci/tag-version.sh"
 vb.composite = ["bump-version"]
 vt.composite = ["tag-version"]
+bench.composite = ["pytest benchmarks/ --benchmark-only"]
 
 [dependency-groups]
 ci = [
@@ -46,4 +47,8 @@ lint = [
 test = [
   "pytest>=8.4.1",
   "pytest-cov>=6.2.1",
+]
+stress = [
+    "pytest-benchmark>=5.1.0",
+    "pytest>=8.4.1",
 ]

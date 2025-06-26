@@ -1,5 +1,5 @@
-from resma.annotate.infrastructure.config.environment import AnnotateEnvironment
+from resma.annotate.infrastructure.config.configuration import AnnotateConfiguration
 
 
 def make_annotate_environment():
-    return AnnotateEnvironment()
+    return AnnotateConfiguration()
