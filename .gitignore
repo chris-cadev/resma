@@ -162,6 +162,6 @@ cython_debug/
 #.idea/
 
 ## project related objects
-src/**/config.toml
+config.toml
 .benchmarks
 tests/.test-data
