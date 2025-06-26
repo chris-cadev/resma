@@ -6,6 +6,7 @@ from resma.annotate.interfaces.dto import NoteDTO, NoteWithContentDTO
 
 
 class AnnotateConfigInteractor(ABC):
+
     @property
     @abstractmethod
     def vaults(self) -> dict:
@@ -24,6 +25,11 @@ class AnnotateConfigInteractor(ABC):
     @property
     @abstractmethod
     def editor_cmd(self) -> str:
+        pass
+
+    @property
+    @abstractmethod
+    def workspace(self) -> str:
         pass
 
 

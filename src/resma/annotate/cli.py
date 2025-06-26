@@ -4,9 +4,9 @@ import click
 from click_aliases import ClickAliasedGroup
 
 from resma.annotate.interfaces.factories.note_controller_factory import make_create_note_controller, make_edit_note_controller
-from resma.annotate.interfaces.factories.environment_factory import make_annotate_environment
+from resma.annotate.interfaces.factories.configuration_factory import make_annotate_configuration
 
-env = make_annotate_environment()
+env = make_annotate_configuration()
 
 
 @group(cls=ClickAliasedGroup)

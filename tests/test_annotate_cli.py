@@ -4,7 +4,8 @@ from click.testing import CliRunner
 from resma.cli import main
 
 testing_vault_name = 'RAKMA'
-test_vault_directory = f"{os.path.dirname(__file__)}/.test-data/{testing_vault_name.lower()}"
+test_workspace = f"{os.path.dirname(__file__)}/.test-data"
+test_vault_path = testing_vault_name.lower()
 
 
 def clean_filepath(filepath: str):
@@ -17,12 +18,15 @@ def clean_filepath(filepath: str):
 def test_add_note_cli():
     mock_env = MagicMock()
     mock_env.vaults = {
-        f'{testing_vault_name}': test_vault_directory
+        f'{testing_vault_name}': test_vault_path
     }
-    expected_filepath = f"{test_vault_directory}/add-example.md"
+    mock_env.workspace = test_workspace
+    expected_filepath = os.path.join(
+        test_workspace, test_vault_path, "add-example.md"
+    )
 
     try:
-        with patch("resma.cli.make_annotate_environment", return_value=mock_env):
+        with patch("resma.cli.make_annotate_configuration", return_value=mock_env):
             runner = CliRunner()
             result = runner.invoke(
                 main, (
@@ -38,13 +42,16 @@ def test_add_note_cli():
 def test_edit_note_cli():
     mock_env = MagicMock()
     mock_env.vaults = {
-        testing_vault_name: test_vault_directory
+        f'{testing_vault_name}': test_vault_path
     }
+    mock_env.workspace = test_workspace
     mock_env.editor_cmd = "nvim"
-    expected_filepath = f"{test_vault_directory}/edit-example.md"
+    expected_filepath = os.path.join(
+        test_workspace, test_vault_path, "edit-example.md"
+    )
 
     try:
-        with patch("resma.cli.make_annotate_environment", return_value=mock_env):
+        with patch("resma.cli.make_annotate_configuration", return_value=mock_env):
             with patch("os.system") as mock_system:
                 runner = CliRunner()
                 runner.invoke(
@@ -76,19 +83,24 @@ def test_edit_note_cli():
 def test_open_note_cli():
     mock_env = MagicMock()
     mock_env.vaults = {
-        testing_vault_name: test_vault_directory
+        f'{testing_vault_name}': test_vault_path
     }
+    mock_env.workspace = test_workspace
     mock_env.editor_cmd = "nvim"
-    expected_filepath = f"{test_vault_directory}/annotate-example.md"
+    expected_filepath = os.path.join(
+        test_workspace, test_vault_path, "open-example.md"
+    )
 
     try:
-        with patch("resma.cli.make_annotate_environment", return_value=mock_env):
+        with patch("resma.cli.make_annotate_configuration", return_value=mock_env):
             with patch("os.system") as mock_system:
                 runner = CliRunner()
                 result = runner.invoke(
                     main,
-                    ("annotate", "open-note", "annotate-example",
-                     "-v", testing_vault_name),
+                    (
+                        "annotate", "open-note", "open-example",
+                        "-v", testing_vault_name
+                    ),
                     obj={"env": mock_env},
                 )
 

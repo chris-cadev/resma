@@ -3,7 +3,7 @@ import importlib
 from click import group, pass_context, version_option
 from click_aliases import ClickAliasedGroup
 
-from resma.annotate.interfaces.factories.environment_factory import make_annotate_environment
+from resma.annotate.interfaces.factories.configuration_factory import make_annotate_configuration
 from resma.ingest.cli import main as main_ingest
 from resma.annotate.cli import main as main_annotate
 from resma.publish.cli import main as main_publish
@@ -14,7 +14,7 @@ from resma.publish.cli import main as main_publish
 @pass_context
 def main(ctx):
     ctx.obj = {
-        "env": make_annotate_environment()
+        "env": make_annotate_configuration()
     }
 
 

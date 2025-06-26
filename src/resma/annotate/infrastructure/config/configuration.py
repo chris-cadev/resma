@@ -41,3 +41,12 @@ class AnnotateConfiguration(AnnotateConfigInteractor):
     @property
     def editor_cmd(self):
         return self.get_config().get('editor_cmd', 'nano')
+
+    @property
+    def workspace(self) -> str:
+        path = self.get_config().get('workspace', '$HOME/.resma')
+
+        if os.name == 'nt':
+            path = path.replace('$HOME', '%USERPROFILE%')
+
+        return os.path.expandvars(path)
