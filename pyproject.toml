@@ -8,7 +8,7 @@ license = {text = "MIT"}
 name = "RESMA"
 readme = "README.md"
 requires-python = ">=3.13"
-version = "0.0.0+gamma.20250625181210"
+version = "0.0.0+gamma.20250625183636"
 
 [build-system]
 build-backend = "pdm.backend"
@@ -21,14 +21,13 @@ resma = "resma.cli:main"
 distribution = true
 
 [tool.pdm.scripts]
+bench.composite = ["pytest benchmarks/ --benchmark-only"]
+commit.composite = ["version-bump local gamma", "git add pyproject.toml", "git commit"]
 cov.composite = ["coverage run -m pytest", "coverage html"]
 scov.composite = ["python -m http.server 18000 --directory htmlcov"]
 test.composite = ["pytest tests/ "]
-bump-version = "./ci/bump-version.sh"
-tag-version = "./ci/tag-version.sh"
-vb.composite = ["bump-version"]
-vt.composite = ["tag-version"]
-bench.composite = ["pytest benchmarks/ --benchmark-only"]
+version-bump = "./ci/bump-version.sh"
+version-tag = "./ci/tag-version.sh"
 
 [dependency-groups]
 ci = [
@@ -44,11 +43,11 @@ lint = [
   "flake8>=7.3.0",
   "black>=25.1.0",
 ]
+stress = [
+  "pytest-benchmark>=5.1.0",
+  "pytest>=8.4.1",
+]
 test = [
   "pytest>=8.4.1",
   "pytest-cov>=6.2.1",
-]
-stress = [
-    "pytest-benchmark>=5.1.0",
-    "pytest>=8.4.1",
 ]
