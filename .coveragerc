@@ -1,4 +1,16 @@
-[coverage:report]
-exclude_lines =
-    @abstractmethod
-    def .+  # you can try function patterns here if needed
+[run]
+branch = True
+
+[report]
+; Regexes for lines to exclude from consideration
+exclude_also =
+    ; Don't complain about missing debug-only code:
+    def __repr__
+    if self\.debug
+
+    ; Don't complain if tests don't hit defensive assertion code:
+    raise AssertionError
+    raise NotImplementedError
+
+    ; Don't complain about abstract methods, they aren't run:
+    @(abc\.)?abstractmethod

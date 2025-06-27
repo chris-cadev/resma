@@ -19,6 +19,14 @@
             "program": "src/resma/cli.py",
             "console": "integratedTerminal",
             "args": "note a s -t daily -e date ${input:enterDate}"
+        },
+        {
+            "name": "RESMA CLI - ingest",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "src/resma/cli.py",
+            "console": "integratedTerminal",
+            "args": "ingest ${input:enterRestOfCommands}"
         }
     ],
     "inputs": [
@@ -26,6 +34,11 @@
             "id": "enterDate",
             "type": "promptString",
             "description": "Enter the date"
+        },
+        {
+            "id": "enterRestOfCommands",
+            "type": "promptString",
+            "description": "Enter the rest of commands"
         }
     ]
 }
