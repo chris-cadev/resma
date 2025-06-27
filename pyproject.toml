@@ -8,7 +8,7 @@ license = {text = "MIT"}
 name = "RESMA"
 readme = "README.md"
 requires-python = ">=3.12"
-version = "0.0.0+gamma.20250627085711"
+version = "0.0.0+gamma.20250627092205"
 
 [build-system]
 build-backend = "pdm.backend"
@@ -25,6 +25,7 @@ bench.composite = ["pytest benchmarks/ --benchmark-only"]
 commit.composite = ["version-bump local gamma", "git add pyproject.toml", "git commit"]
 cov.composite = ["coverage run -m pytest tests/", "coverage html"]
 covs.composite = ["python -m http.server 18000 --directory htmlcov"]
+prog-rec.composite = ["bash ./ci/rec-progress.sh"]
 rec.composite = ['bash ./ci/rec-demo.sh']
 resma = "resma"
 test.composite = ["pytest tests/ "]

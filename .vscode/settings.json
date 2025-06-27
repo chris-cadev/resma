@@ -3,10 +3,15 @@
         "dateutil",
         "dotenv",
         "dtos",
+        "gource",
         "Interactor",
         "interactors",
+        "lanczos",
+        "libx",
         "rakma",
-        "resma"
+        "resma",
+        "ultrafast",
+        "vcodec"
     ],
     "python.testing.pytestArgs": [
         "tests"
