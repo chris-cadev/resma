@@ -7,8 +7,8 @@ from resma.shared.use_cases import Interactor
 
 
 class NoteInteractor(Interactor, ABC):
-    def __init__(self, *, repository: AnnotateNoteRepositoryInteractor, config: AnnotateConfigInteractor):
-        self.repository = repository
+    def __init__(self, *, notes_repo: AnnotateNoteRepositoryInteractor, config: AnnotateConfigInteractor):
+        self.notes_repo = notes_repo
         self.config = config
 
     def get_note_filepath(self, *, name: Optional[str] = None, vault: Optional[str] = None):

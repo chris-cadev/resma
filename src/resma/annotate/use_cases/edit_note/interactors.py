@@ -8,11 +8,11 @@ from resma.annotate.use_cases.create_note.interactors import NoteInteractor
 
 class EditNoteInteractor(NoteInteractor):
     def __init__(self, *, repository: AnnotateNoteRepositoryInteractor, config: AnnotateConfigInteractor, gateway: AnnotateNoteEditorGateway):
-        super().__init__(repository=repository, config=config)
+        super().__init__(notes_repo=repository, config=config)
         self.gateway = gateway
 
     def execute(self, *, name: Optional[str] = None, vault: Optional[str] = None) -> Note:
         filepath = self.get_note_filepath(name=name, vault=vault)
-        dto = self.repository.get(filepath=filepath)
-        self.gateway.open_editor(filepath=dto.note.filepath)
+        dto = self.notes_repo.get(filepath=filepath)
+        self.gateway.open_editor(filepath=dto.filepath)
         return dto

@@ -1,13 +1,19 @@
-class Note:
+class File:
     def __init__(self, filepath: str):
         self.filepath = filepath
-    @staticmethod
-    def create(filepath: str):
-        return Note(filepath)
 
-class Media:
-    def __init__(self, filepath: str):
-        self.filepath = filepath
-    # @staticmethod
-    # def create(name: str, directory: str, extension: str):
-    #     return Media(f"{directory}/{name}.{extension}")
+
+class Note(File):
+    @staticmethod
+    def create(*, filepath) -> 'Note':
+        return Note(filepath=filepath)
+
+
+class Template(File):
+    @staticmethod
+    def create(*, filepath) -> 'Template':
+        return Template(filepath=filepath)
+
+
+class Media(File):
+    ...

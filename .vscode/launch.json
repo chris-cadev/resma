@@ -11,6 +11,21 @@
             "program": "src/resma/cli.py",
             "console": "integratedTerminal",
             "args": "${command:pickArgs}"
+        },
+        {
+            "name": "RESMA CLI - daily template",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "src/resma/cli.py",
+            "console": "integratedTerminal",
+            "args": "note a s -t daily -e date ${input:enterDate}"
+        }
+    ],
+    "inputs": [
+        {
+            "id": "enterDate",
+            "type": "promptString",
+            "description": "Enter the date"
         }
     ]
 }

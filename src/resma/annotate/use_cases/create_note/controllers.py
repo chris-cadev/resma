@@ -8,9 +8,8 @@ class ClickCreateNoteController(CreateNoteController):
     def __init__(self,*, create_note_interactor: Interactor):
         self.create_note_interactor = create_note_interactor
 
-    def create_note(self, *, name, vault_name, template=None) -> NoteDTO:
+    def create_note(self, *, name, vault) -> NoteDTO:
         return self.create_note_interactor.execute(
             name=name,
-            vault=vault_name,
-            template=template
+            vault=vault,
         )

@@ -2,13 +2,13 @@
 authors = [
   {name = "Christian Camacho", email = "chris.ca.dev@gmail.com"},
 ]
-dependencies = ["click>=8.2.1", "click-aliases>=1.0.5", "python-dotenv>=1.1.1", "toml>=0.10.2"]
+dependencies = ["click>=8.2.1", "click-aliases>=1.0.5", "python-dotenv>=1.1.1", "toml>=0.10.2", "python-dateutil>=2.9.0.post0"]
 description = "Range Signal Meta Amplifier"
 license = {text = "MIT"}
 name = "RESMA"
 readme = "README.md"
 requires-python = ">=3.12"
-version = "0.0.0+gamma.20250626110227"
+version = "0.0.0+gamma.20250627085711"
 
 [build-system]
 build-backend = "pdm.backend"

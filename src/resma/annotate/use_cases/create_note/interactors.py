@@ -4,10 +4,8 @@ from resma.annotate.use_cases.note.interactors import NoteInteractor
 
 
 class CreateNoteInteractor(NoteInteractor):
-    def execute(self, *, name: Optional[str] = None, vault: Optional[str] = None, template: Optional[str] = None) -> Note:
+    def execute(self, *, name: Optional[str] = None, vault: Optional[str] = None) -> Note:
         filepath = self.get_note_filepath(name=name, vault=vault)
-        note = self.repository.create(
-            Note.create(filepath=filepath)
-        )
+        note = Note.create(filepath=filepath)
+        self.notes_repo.create(filepath=filepath)
         return note
-

@@ -8,5 +8,11 @@ class NoteDTO:
 
 @dataclass
 class NoteWithContentDTO:
-    note: NoteDTO
+    filepath: str
+    content: str
+
+
+@dataclass
+class TemplateDTO:
+    filepath: str
     content: str

@@ -20,6 +20,6 @@ class NotesService:
         filepath = os.path.join(note_directory, f"{note_name}.md")
 
         return self.repository.create(
-            note=Note.create(filepath=filepath),
+            filepath=Note.create(filepath=filepath),
             content=content,
         )
