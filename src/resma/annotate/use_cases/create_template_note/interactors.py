@@ -2,10 +2,11 @@ from datetime import datetime, timedelta
 from dateutil.parser import parse as dateutil_parse
 import re
 from typing import Optional
-from resma.annotate.interfaces.interactors import AnnotateTemplateNoteInteractor, AnnotateTemplateRepositoryInteractor
+from resma.annotate.interfaces.dto import TemplateDTO
+from resma.annotate.interfaces.interactors import TemplateNoteInteractor, TemplateRepositoryInteractor
 from resma.annotate.use_cases.note.interactors import NoteInteractor
 from os.path import join
-from resma.annotate.interfaces.dto import NoteDTO, NoteWithContentDTO, TemplateDTO
+from resma.shared.interfaces.dto import EvaluatedTemplateDTO, FileDTO, TextFileWithContentDTO
 
 
 class CreateTemplateNoteInteractor(NoteInteractor):
@@ -14,14 +15,14 @@ class CreateTemplateNoteInteractor(NoteInteractor):
         *,
         notes_repo,
         config,
-        templates_repo: AnnotateTemplateRepositoryInteractor,
-        note_template_interactor: AnnotateTemplateNoteInteractor,
+        templates_repo: TemplateRepositoryInteractor,
+        note_template_interactor: TemplateNoteInteractor,
     ):
         super().__init__(notes_repo=notes_repo, config=config)
         self.templates_repo = templates_repo
         self.note_template_interactor = note_template_interactor
 
-    def execute(self, *, name: Optional[str] = None, vault: Optional[str] = None, template: Optional[str] = None, meta: Optional[dict]) -> NoteDTO:
+    def execute(self, *, name: Optional[str] = None, vault: Optional[str] = None, template: Optional[str] = None, meta: Optional[dict]) -> FileDTO:
         note_path = self.get_note_filepath(name=name, vault=vault)
         template_path = self.get_template_filepath(
             vault=vault, template=template
@@ -39,9 +40,13 @@ class CreateTemplateNoteInteractor(NoteInteractor):
             note=note,
             meta=meta,
         )
+        if template_evaluated.mode == 'append':
+            note = self.notes_repo.append(
+                filepath=note.filepath, content=template_evaluated.content)
+        elif template_evaluated.mode == 'override':
+            note = self.notes_repo.create(
+                filepath=note.filepath, content=template_evaluated.content)
 
-        note = self.notes_repo.append(
-            filepath=note.filepath, content=template_evaluated.content)
 
         return note
 
@@ -59,10 +64,14 @@ class CreateTemplateNoteInteractor(NoteInteractor):
         return template_filepath
 
 
-class TimelineNoteInteractor(AnnotateTemplateNoteInteractor):
+class TimelineNoteInteractor(TemplateNoteInteractor):
     DATE_FORMAT = '%A %d-%b-%Y'
 
-    def evaluate_template(self, *, template: TemplateDTO, note: Optional[NoteWithContentDTO] = None, meta: Optional[dict] = {}) -> NoteWithContentDTO:
+    def __init__(self):
+        super().__init__()
+        self.mode = 'append'
+
+    def evaluate_template(self, *, template: TemplateDTO, note: Optional[TextFileWithContentDTO] = None, meta: Optional[dict] = {}) -> EvaluatedTemplateDTO:
         date = meta.get('date')
         entry_date = dateutil_parse(
             date) if date is not None else datetime.today()
@@ -81,12 +90,13 @@ class TimelineNoteInteractor(AnnotateTemplateNoteInteractor):
                 template.content = template.content.replace(placeholder, '')
                 continue
             template.content = template.content.replace(placeholder, value)
-        return NoteWithContentDTO(
+        return EvaluatedTemplateDTO(
+            mode='append',
             filepath=note.filepath,
             content=template.content,
         )
 
-    def get_latest_date_entry(self, note: NoteWithContentDTO):
+    def get_latest_date_entry(self, note: TextFileWithContentDTO):
         dates = self.get_date_matches(note.content)
         if not dates:
             return None
@@ -109,10 +119,30 @@ class TimelineNoteInteractor(AnnotateTemplateNoteInteractor):
             return 'yesterday'
         return f'on {self.get_day_name(previous_date)}'
 
-    def get_day_name(self, date_string: str):
+    def get_day_name(self, date: datetime):
         days = ['Monday', 'Tuesday', 'Wednesday',
                 'Thursday', 'Friday', 'Saturday', 'Sunday']
-        date = datetime.strptime(
-            date_string, TimelineNoteInteractor.DATE_FORMAT)
         day_of_week = date.weekday()
         return days[day_of_week]
+
+
+class ReferenceTemplateNoteInteractor(TemplateNoteInteractor):
+    def __init__(self):
+        super().__init__()
+        self.mode = 'override'
+
+    def evaluate_template(self, *, template, note, meta):
+        replacements = {
+            "==url==": meta.get('url'),
+            "[[==author==]]": f'[[{meta.get('author')}]]' if meta.get('author') else None,
+        }
+        for placeholder, value in replacements.items():
+            if not value:
+                template.content = template.content.replace(placeholder, '')
+                continue
+            template.content = template.content.replace(placeholder, value)
+        return EvaluatedTemplateDTO(
+            mode='override',
+            filepath=note.filepath,
+            content=template.content,
+        )

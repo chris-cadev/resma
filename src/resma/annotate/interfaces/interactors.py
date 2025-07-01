@@ -2,11 +2,12 @@ from abc import ABC, abstractmethod
 from typing import Optional, Union
 
 from resma.annotate.domain.entities import Note
-from resma.annotate.interfaces.dto import NoteDTO, NoteWithContentDTO, TemplateDTO
+from resma.annotate.interfaces.dto import TemplateDTO
+from resma.shared.interfaces.dto import EvaluatedTemplateDTO, FileDTO, TextFileWithContentDTO
+from resma.shared.interfaces.interactors import ConfigurationInteractor
 
 
-class AnnotateConfigInteractor(ABC):
-
+class AnnotateConfigurationInteractor(ConfigurationInteractor, ABC):
     @property
     @abstractmethod
     def vaults(self) -> dict:
@@ -29,11 +30,6 @@ class AnnotateConfigInteractor(ABC):
 
     @property
     @abstractmethod
-    def workspace(self) -> str:
-        pass
-
-    @property
-    @abstractmethod
     def templates_dir(self) -> str:
         pass
 
@@ -45,47 +41,48 @@ class AnnotateConfigInteractor(ABC):
 
 class AnnotateNoteRepositoryInteractor(ABC):
     @abstractmethod
-    def create(self, *, filepath: str, content: Union[str, None]) -> NoteWithContentDTO:
+    def create(self, *, filepath: str, content: Union[str, None]) -> TextFileWithContentDTO:
         pass
 
     @abstractmethod
-    def append(self, *, filepath: str, content: str) -> NoteWithContentDTO:
+    def append(self, *, filepath: str, content: str) -> TextFileWithContentDTO:
         pass
 
     @abstractmethod
-    def get(self, *, filepath: str) -> Union[NoteWithContentDTO, None]:
+    def get(self, *, filepath: str) -> Union[TextFileWithContentDTO, None]:
         pass
 
 
-class AnnotateTemplateRepositoryInteractor(ABC):
+class TemplateRepositoryInteractor(ABC):
     @abstractmethod
     def get(self, *, filepath: str) -> TemplateDTO:
         pass
 
 
-class AnnotateTemplateNoteInteractor(ABC):
+class TemplateNoteInteractor(ABC):
     @abstractmethod
-    def evaluate_template(self, *, template: TemplateDTO, note: Optional[Note], meta: Optional[dict]) -> NoteWithContentDTO:
+    def evaluate_template(self, *, template: TemplateDTO, note: Optional[Note], meta: Optional[dict]) -> EvaluatedTemplateDTO:
         pass
 
-class AnnotateNoteEditorGateway(ABC):
+
+class NoteEditorGateway(ABC):
     @abstractmethod
-    def open_editor(self, *, filepath: str) -> bool:
+    def open(self, *, filepath: str) -> bool:
         pass
 
 class CreateNoteController(ABC):
     @abstractmethod
-    def create_note(self, *, name: str, vault_name: Optional[str]) -> NoteDTO:
+    def create_note(self, *, name: str, vault_name: Optional[str]) -> FileDTO:
         pass
 
 
-class CreateTemplateNoteController(ABC):
+class CreateTemplateNoteInteractor(ABC):
     @abstractmethod
-    def create_note(self, *, name: str, vault_name: Optional[str], template: Optional[str], meta: Optional[dict]) -> NoteDTO:
+    def create_note(self, *, name: str, vault_name: Optional[str], template: Optional[str], meta: Optional[dict]) -> FileDTO:
         pass
 
 
 class EditNoteController(ABC):
     @abstractmethod
-    def edit_note(self, *, name: str, vault_name: Optional[str]) -> NoteWithContentDTO:
+    def edit_note(self, *, name: str, vault_name: Optional[str]) -> TextFileWithContentDTO:
         pass

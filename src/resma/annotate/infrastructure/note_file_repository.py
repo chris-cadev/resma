@@ -1,6 +1,5 @@
 import os
-from resma.annotate.domain.entities import Note
-from resma.annotate.interfaces.dto import NoteWithContentDTO
+from resma.shared.interfaces.dto import TextFileWithContentDTO
 from resma.annotate.interfaces.interactors import AnnotateNoteRepositoryInteractor
 
 
@@ -13,7 +12,7 @@ class NoteFilesRepository(AnnotateNoteRepositoryInteractor):
             os.makedirs(note_directory)
         with open(filepath, 'w') as n:
             n.write(content)
-            return NoteWithContentDTO(
+            return TextFileWithContentDTO(
                 filepath=filepath,
                 content=content,
             )
@@ -24,7 +23,7 @@ class NoteFilesRepository(AnnotateNoteRepositoryInteractor):
             return self.get(filepath=filepath)
         with open(filepath, 'a') as n:
             n.write(content)
-            return NoteWithContentDTO(
+            return TextFileWithContentDTO(
                 filepath=filepath,
                 content=content
             )
@@ -35,7 +34,7 @@ class NoteFilesRepository(AnnotateNoteRepositoryInteractor):
             raise ValueError(f"Note {filepath} does not exist")
         with open(filepath) as n:
             content = n.read()
-            return NoteWithContentDTO(
+            return TextFileWithContentDTO(
                 filepath=filepath,
                 content=content
             )

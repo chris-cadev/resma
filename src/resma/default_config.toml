@@ -1,9 +1,10 @@
 workspace = "$HOME/.resma/notes"
 editor_cmd = "nano"
 
+default_vault = "default"
+
 [annotate]
 default_note_name = "untitled"
-default_vault = "default"
 
 [vaults]
 default = ''

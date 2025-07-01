@@ -1,17 +1,26 @@
 {
     "cSpell.words": [
         "dateutil",
+        "domcontentloaded",
         "dotenv",
         "dtos",
+        "FOLLOWLOCATION",
         "gource",
+        "HTTPHEADER",
         "Interactor",
         "interactors",
         "lanczos",
         "libx",
+        "NOSIGNAL",
         "rakma",
         "resma",
+        "selectolax",
+        "selfdir",
+        "setopt",
         "ultrafast",
-        "vcodec"
+        "vcodec",
+        "WRITEDATA",
+        "youtu"
     ],
     "python.testing.pytestArgs": [
         "tests"

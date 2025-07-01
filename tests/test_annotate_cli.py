@@ -26,7 +26,7 @@ def test_add_note_cli():
     )
 
     try:
-        with patch("resma.cli.make_annotate_configuration", return_value=mock_env):
+        with patch("resma.annotate.cli.make_annotate_configuration", return_value=mock_env):
             runner = CliRunner()
             result = runner.invoke(
                 main, (
@@ -51,7 +51,7 @@ def test_edit_note_cli():
     )
 
     try:
-        with patch("resma.cli.make_annotate_configuration", return_value=mock_env):
+        with patch("resma.annotate.cli.make_annotate_configuration", return_value=mock_env):
             with patch("os.system") as mock_system:
                 runner = CliRunner()
                 runner.invoke(
@@ -92,7 +92,7 @@ def test_open_note_cli():
     )
 
     try:
-        with patch("resma.cli.make_annotate_configuration", return_value=mock_env):
+        with patch("resma.annotate.cli.make_annotate_configuration", return_value=mock_env):
             with patch("os.system") as mock_system:
                 runner = CliRunner()
                 result = runner.invoke(

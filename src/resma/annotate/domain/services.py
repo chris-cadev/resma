@@ -1,11 +1,11 @@
 import os
 from typing import Optional
 from resma.annotate.domain.entities import Note
-from resma.annotate.interfaces.interactors import AnnotateConfigInteractor, AnnotateNoteRepositoryInteractor
+from resma.annotate.interfaces.interactors import AnnotateConfigurationInteractor, AnnotateNoteRepositoryInteractor
 
 
 class NotesService:
-    def __init__(self, env: AnnotateConfigInteractor, repository: AnnotateNoteRepositoryInteractor):
+    def __init__(self, env: AnnotateConfigurationInteractor, repository: AnnotateNoteRepositoryInteractor):
         self.env = env
         self.repository = repository
 

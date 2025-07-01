@@ -2,13 +2,23 @@
 authors = [
   {name = "Christian Camacho", email = "chris.ca.dev@gmail.com"},
 ]
-dependencies = ["click>=8.2.1", "click-aliases>=1.0.5", "python-dotenv>=1.1.1", "toml>=0.10.2", "python-dateutil>=2.9.0.post0"]
+dependencies = [
+  "click>=8.2.1",
+  "click-aliases>=1.0.5",
+  "python-dotenv>=1.1.1",
+  "toml>=0.10.2",
+  "python-dateutil>=2.9.0.post0",
+  "playwright>=1.53.0",
+  "pycurl>=7.45.6",
+  "furl>=2.1.4",
+  "selectolax[cython]>=0.3.30",
+]
 description = "Range Signal Meta Amplifier"
 license = {text = "MIT"}
 name = "RESMA"
 readme = "README.md"
 requires-python = ">=3.12"
-version = "0.0.0+gamma.20250627092205"
+version = "0.0.0+gamma.20250701101333"
 
 [build-system]
 build-backend = "pdm.backend"
@@ -37,10 +47,10 @@ ci = [
   "toml-cli>=0.7.0",
 ]
 dev = [
-    "pytest>=8.4.1",
-    "mypy>=1.16.1",
-    "black>=25.1.0",
-    "coverage>=7.9.1",
+  "pytest>=8.4.1",
+  "mypy>=1.16.1",
+  "black>=25.1.0",
+  "coverage>=7.9.1",
 ]
 lint = [
   "flake8>=7.3.0",

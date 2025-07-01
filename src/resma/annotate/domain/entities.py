@@ -16,4 +16,4 @@ class Template(File):
 
 
 class Media(File):
-    ...
+    pass

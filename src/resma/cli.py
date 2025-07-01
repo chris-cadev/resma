@@ -13,9 +13,7 @@ from resma.publish.cli import main as main_publish
 @version_option(version=importlib.metadata.version('resma'), prog_name='resma: Range Signal Meta Amplifier')
 @pass_context
 def main(ctx):
-    ctx.obj = {
-        "env": make_annotate_configuration()
-    }
+    pass
 
 
 commands = {

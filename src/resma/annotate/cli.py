@@ -2,6 +2,7 @@ from click import Context, argument, option, group, STRING, pass_context
 import click
 from click_aliases import ClickAliasedGroup
 
+from resma.annotate.interfaces.factories.configuration_factory import make_annotate_configuration
 from resma.annotate.interfaces.factories.note_controller_factory import (
     make_create_note_controller as create_note_ctl,
     make_create_template_note_controller as create_template_note_ctl,
@@ -12,8 +13,9 @@ from resma.annotate.interfaces.factories.note_controller_factory import (
 @group(cls=ClickAliasedGroup)
 @pass_context
 def main(ctx: Context):
-    pass
-
+    ctx.obj = {
+        "env": make_annotate_configuration()
+    }
 
 @main.command(aliases=("open", "o"))
 @pass_context

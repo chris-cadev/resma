@@ -1,10 +1,9 @@
 import os
-from resma.annotate.domain.entities import Template
 from resma.annotate.interfaces.dto import TemplateDTO
-from resma.annotate.interfaces.interactors import AnnotateTemplateRepositoryInteractor
+from resma.annotate.interfaces.interactors import TemplateRepositoryInteractor
 
 
-class TemplateFilesRepository(AnnotateTemplateRepositoryInteractor):
+class FileTemplatesRepository(TemplateRepositoryInteractor):
     def get(self, *, filepath: str):
         if not os.path.exists(filepath):
             raise ValueError(f"Template {filepath} does not exist")
