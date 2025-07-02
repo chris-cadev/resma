@@ -7,6 +7,7 @@ from resma.annotate.interfaces.factories.note_controller_factory import (
     make_create_note_controller as create_note_ctl,
     make_create_template_note_controller as create_template_note_ctl,
     make_edit_note_controller as edit_note_ctl,
+    make_delete_note_controller as delete_note_ctl,
 )
 
 
@@ -69,5 +70,18 @@ def edit_note(ctx: Context, name: str, vault: str, quiet: bool = False):
 
     dto = edit_note_ctl(env).edit_note(name=name, vault=vault)
 
+    if not quiet:
+        click.echo(dto.filepath)
+
+
+@main.command(aliases=("del", "d"))
+@pass_context
+@argument("name", type=STRING, required=True)
+@option("--vault", "-v", required=False, help="Vault name or directory path")
+@option("--quiet", "-q", is_flag=True, default=False)
+def delete_note(ctx: Context, name: str, vault: str, quiet: bool = False):
+    env = ctx.obj["env"]
+    vault = vault or env.default_vault
+    dto = delete_note_ctl(env).delete_note(name=name, vault=vault)
     if not quiet:
         click.echo(dto.filepath)

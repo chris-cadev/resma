@@ -52,6 +52,10 @@ class AnnotateNoteRepositoryInteractor(ABC):
     def get(self, *, filepath: str) -> Union[TextFileWithContentDTO, None]:
         pass
 
+    @abstractmethod
+    def delete(self, *, filepath: str) -> Union[TextFileWithContentDTO, None]:
+        pass
+
 
 class TemplateRepositoryInteractor(ABC):
     @abstractmethod
@@ -85,4 +89,10 @@ class CreateTemplateNoteInteractor(ABC):
 class EditNoteController(ABC):
     @abstractmethod
     def edit_note(self, *, name: str, vault_name: Optional[str]) -> TextFileWithContentDTO:
+        pass
+
+
+class DeleteNoteController(ABC):
+    @abstractmethod
+    def delete_note(self, *, name: str, vault_name: Optional[str]) -> TextFileWithContentDTO:
         pass
