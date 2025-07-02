@@ -6,7 +6,7 @@ from resma.annotate.interfaces.interactors import AnnotateNoteRepositoryInteract
 class NoteFilesRepository(AnnotateNoteRepositoryInteractor):
     def create(self, filepath: str, content: str = ''):
         if os.path.exists(filepath):
-            raise SystemError(f'Note already exists at {filepath}')
+            raise FileExistsError(f'Note already exists at {filepath}')
         note_directory = os.path.dirname(filepath)
         if not os.path.exists(note_directory):
             os.makedirs(note_directory)

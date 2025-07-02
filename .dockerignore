@@ -1,0 +1,10 @@
+.venv
+.cache
+.demos
+.pdm-build
+.pytest-cache
+.vscode
+htmlcov
+ci
+sandbox
+tests

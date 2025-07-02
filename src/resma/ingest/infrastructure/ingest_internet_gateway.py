@@ -1,5 +1,3 @@
-
-from selectolax.parser import HTMLParser
 from resma.shared.infrastructure.interactors import InternetFetcherGateway
 
 
@@ -39,6 +37,8 @@ class IngestInternetGateway(InternetFetcherGateway):
         return gateway._fetch(url=url)
 
     def get_metadata(self, *, url: str):
+        # Never import selectolax.parser at the module level when using Shiv or zipapps
+        from selectolax.parser import HTMLParser
         metadata = super().get_metadata(url=url) or {}
         content = self.get_content(url=url)
         if content:

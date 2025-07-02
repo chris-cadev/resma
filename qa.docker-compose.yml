@@ -1,0 +1,9 @@
+services:
+  web-cli:
+    build:
+      context: .
+      dockerfile: QA.Dockerfile
+    ports:
+      - 7681:7681
+    volumes:
+      - .:/app

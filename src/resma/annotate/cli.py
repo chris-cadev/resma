@@ -27,9 +27,11 @@ def open_note(ctx: Context, name: str, vault: str, template: str = None, quiet: 
     env = ctx.obj["env"]
     name = name or env.default_note_name
     vault = vault or env.default_vault
-
-    ctx.invoke(add_note, name=name, vault=vault, template=template, quiet=True)
-    ctx.invoke(edit_note, name=name, vault=vault, quiet=quiet)
+    try:
+        ctx.invoke(add_note, name=name, vault=vault,
+                   template=template, quiet=True)
+    finally:
+        ctx.invoke(edit_note, name=name, vault=vault, quiet=quiet)
 
 
 @main.command(aliases=("add", "an", "a"))

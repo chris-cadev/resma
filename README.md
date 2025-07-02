@@ -5,4 +5,4 @@
 ---
 
 ### Cool animation of the progress
-![](.demos/progress/progress_2025-06-27(0921).gif)
+![](.demos/progress/progress_2025-07-01(1017).gif)

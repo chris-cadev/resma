@@ -134,7 +134,7 @@ class ReferenceTemplateNoteInteractor(TemplateNoteInteractor):
     def evaluate_template(self, *, template, note, meta):
         replacements = {
             "==url==": meta.get('url'),
-            "[[==author==]]": f'[[{meta.get('author')}]]' if meta.get('author') else None,
+            "[[==author==]]": f"[[{meta.get('author')}]]" if meta.get('author') else None,
         }
         for placeholder, value in replacements.items():
             if not value:

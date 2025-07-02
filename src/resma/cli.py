@@ -1,6 +1,9 @@
 import importlib
+import os
+import sys
+import traceback
 
-from click import group, pass_context, version_option
+from click import echo, group, pass_context, version_option
 from click_aliases import ClickAliasedGroup
 
 from resma.annotate.interfaces.factories.configuration_factory import make_annotate_configuration
@@ -27,4 +30,14 @@ for name in commands.keys():
     cmd, aliases = commands.get(name)
     main.add_command(cmd, name, aliases=aliases)
 if __name__ == '__main__':
-    main()
+    dev_mode = os.getenv('RESMA_RUNTIME_MODE') == 'dev'
+    try:
+        main()
+    except Exception as e:
+        if dev_mode:
+            raise
+        is_verbose = os.getenv("VERBOSE") == "1"
+        if is_verbose:
+            traceback.print_exc()
+            sys.exit(1)
+        echo(f'Error: {e}')
