@@ -1,3 +1,5 @@
+from resma.annotate.use_cases.delete_note.controllers import ClickDeleteNoteController
+from resma.annotate.use_cases.delete_note.interactors import DeleteNoteInteractor
 from resma.shared.infrastructure.editor_gateway import SystemCommandNoteEditorGateway
 from resma.annotate.infrastructure.note_file_repository import NoteFilesRepository
 from resma.shared.infrastructure.template_file_repository import FileTemplatesRepository
@@ -32,9 +34,18 @@ def make_create_template_note_controller(config: AnnotateConfigurationInteractor
 
 def make_edit_note_controller(env: AnnotateConfigurationInteractor) -> ClickEditNoteController:
     return ClickEditNoteController(
-        edit_note_interactor=EditNoteInteractor(
+        interactor=EditNoteInteractor(
             repository=NoteFilesRepository(),
             config=env,
             editor=SystemCommandNoteEditorGateway(editor_cmd=env.editor_cmd),
+        )
+    )
+
+
+def make_delete_note_controller(configuration: AnnotateConfigurationInteractor) -> ClickEditNoteController:
+    return ClickDeleteNoteController(
+        interactor=DeleteNoteInteractor(
+            notes_repo=NoteFilesRepository(),
+            config=configuration,
         )
     )

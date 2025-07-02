@@ -1,5 +1,5 @@
 import os
-from resma.shared.interfaces.dto import TextFileWithContentDTO
+from resma.shared.interfaces.dto import FileDTO, TextFileWithContentDTO
 from resma.annotate.interfaces.interactors import AnnotateNoteRepositoryInteractor
 
 
@@ -38,3 +38,9 @@ class NoteFilesRepository(AnnotateNoteRepositoryInteractor):
                 filepath=filepath,
                 content=content
             )
+
+    def delete(self, *, filepath):
+        if not os.path.exists(filepath):
+            raise ValueError(f"Note {filepath} does not exist")
+        os.remove(filepath)
+        return FileDTO(filepath=filepath)

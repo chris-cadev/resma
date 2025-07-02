@@ -1,15 +1,15 @@
 
 import click
-from resma.shared.interfaces.dto import TextFileWithContentDTO
-from resma.annotate.interfaces.interactors import EditNoteController
+from resma.shared.interfaces.dto import FileDTO
+from resma.annotate.interfaces.interactors import DeleteNoteController
 from resma.shared.use_cases import Interactor
 
 
-class ClickEditNoteController(EditNoteController):
-    def __init__(self, *, interactor: Interactor):
+class ClickDeleteNoteController(DeleteNoteController):
+    def __init__(self,*, interactor: Interactor):
         self.interactor = interactor
 
-    def edit_note(self, *, name, vault) -> TextFileWithContentDTO:
+    def delete_note(self, *, name, vault) -> FileDTO:
         try:
             return self.interactor.execute(
                 name=name,
